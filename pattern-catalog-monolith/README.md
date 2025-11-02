@@ -29,6 +29,7 @@ curl -X POST http://localhost:8080/api/v1/ai/patterns \
 ```
 <img width="1308" height="183" alt="image" src="https://github.com/user-attachments/assets/93afc8f7-af24-47d5-aec2-ab6d6a65e239" />
 response 
+
 ```json
 "patterns": ["Microservice", "Client–Server"],     "found": true,     "response": 2,    "explanation": {n       "Microservice": "Describes an application composed of small, independently deployable services communicating via APIs, which facilitates scaling.",    "Client–Server": "Since the user wants to scale services, this suggests a centralized server providing resources to multiple clients."     }   }"}
 ```
