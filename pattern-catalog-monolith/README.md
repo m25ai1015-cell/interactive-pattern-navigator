@@ -36,3 +36,6 @@ response
 
 ### If wrong input - I want Rasgulla
 <img width="1341" height="158" alt="image" src="https://github.com/user-attachments/assets/f17b550c-8d78-49eb-a5ee-45bc62696a30" />
+```json
+{"answer":" {\n     \"ask\" : \"I want eat rasgulla\",\n     \"patterns\": [],\n     \"found\": false,\n     \"response\": 0,\n     \"explanation\": {}\n   }"}
+```
