@@ -33,3 +33,6 @@ response
 ```json
 "patterns": ["Microservice", "Client–Server"],     "found": true,     "response": 2,    "explanation": {n       "Microservice": "Describes an application composed of small, independently deployable services communicating via APIs, which facilitates scaling.",    "Client–Server": "Since the user wants to scale services, this suggests a centralized server providing resources to multiple clients."     }   }"}
 ```
+
+### If wrong input - I want Rasgulla
+<img width="1341" height="158" alt="image" src="https://github.com/user-attachments/assets/f17b550c-8d78-49eb-a5ee-45bc62696a30" />
