@@ -1,0 +1,355 @@
+[
+  {
+    "key": "client-server",
+    "name": "Client–Server",
+    "summary": "A two-tier architecture where clients send service requests and servers process them. Central server manages resources, authentication, and business logic.",
+    "complexity": "Low",
+    "deployment": "Centralized",
+    "primaryDriver": "Central management and controlled access",
+    "whenToUse": [
+      "You need a single authoritative data source",
+      "You want multiple clients sharing one backend service",
+      "Security, authentication, or auditing must be centralized",
+      "Client devices are lightweight"
+    ],
+    "whenNotToUse": [
+      "You need horizontal scaling of logic across nodes",
+      "You want offline or peer-to-peer behavior",
+      "Server failure must not take the entire app down"
+    ],
+    "cons": [
+      "Single point of failure",
+      "Vertical scaling limitations",
+      "Server can become performance bottleneck"
+    ],
+    "mitigations": [
+      "Load balancer + multiple server nodes",
+      "Caching frequently accessed data",
+      "Using asynchronous request handling"
+    ],
+    "similar": ["Microservice", "Layered Architecture"],
+    "examples": [
+      "Traditional Web Apps",
+      "Email Clients",
+      "Database-backed Applications"
+    ]
+  },
+  {
+    "key": "mvc",
+    "name": "Model–View–Controller (MVC)",
+    "summary": "Separates application logic into Model, View, and Controller components. Facilitates UI updates and modularity.",
+    "complexity": "Medium",
+    "deployment": "Monolithic or layered",
+    "primaryDriver": "Clear separation of concerns for UI-driven apps",
+    "whenToUse": [
+      "You have dynamic user interfaces",
+      "You want independent UI and business logic development",
+      "Multiple UI frontends share the same backend logic",
+      "Testability and modularity matter"
+    ],
+    "whenNotToUse": [
+      "Your application is not UI-driven",
+      "Interaction is not user/event centric",
+      "You require distributed interactions between components"
+    ],
+    "cons": [
+      "Controllers can become bloated",
+      "Harder to manage for highly real-time apps",
+      "Model changes can force UI rewrites"
+    ],
+    "mitigations": [
+      "Introduce service layer",
+      "Use MVVM for heavy UI apps",
+      "Modular controllers"
+    ],
+    "similar": ["Presentation–Abstraction–Controller (PAC)", "Layered Architecture"],
+    "examples": [
+      "Spring MVC",
+      "Ruby on Rails",
+      "ASP.NET MVC"
+    ]
+  },
+  {
+    "key": "pac",
+    "name": "Presentation–Abstraction–Controller (PAC)",
+    "summary": "Hierarchical variant of MVC. System is decomposed into independent agents, each containing its own presentation, abstraction, and controller components.",
+    "complexity": "High",
+    "deployment": "Layered or modular",
+    "primaryDriver": "Multiple independent UI modules that need autonomy",
+    "whenToUse": [
+      "System has multiple independent presentation modules",
+      "You need different UI agents communicating through a hierarchy",
+      "Applications with strong modularity and reuse goals",
+      "Applications with multiple simultaneous views"
+    ],
+    "whenNotToUse": [
+      "Small or simple UI applications",
+      "You don’t need hierarchical UI components",
+      "You don’t need independently functioning agents"
+    ],
+    "cons": [
+      "High structural complexity",
+      "Harder to test",
+      "More components require coordination"
+    ],
+    "mitigations": [
+      "Use standardized component libraries",
+      "Shared controller bus",
+      "Modular communication channels"
+    ],
+    "similar": ["Model–View–Controller (MVC)", "Layered Architecture"],
+    "examples": [
+      "Complex GUI systems",
+      "Large-scale HMI systems",
+      "Air-traffic control screens"
+    ]
+  },
+  {
+    "key": "pipe-filter",
+    "name": "Pipe–and–Filter",
+    "summary": "Processing architecture where data flows through a chain of filters, each transforming the data and passing it to the next stage.",
+    "complexity": "Medium",
+    "deployment": "Sequential or distributed",
+    "primaryDriver": "Streamlined data processing pipelines",
+    "whenToUse": [
+      "ETL-style transformations",
+      "Continuous stream processing",
+      "Compiler and multi-stage data flows",
+      "Large data transformation tasks"
+    ],
+    "whenNotToUse": [
+      "Highly interactive user-driven applications",
+      "When transformations require shared state between filters"
+    ],
+    "cons": [
+      "Filters must be stateless",
+      "Difficult to handle branching",
+      "Debugging can be harder"
+    ],
+    "mitigations": [
+      "Introduce monitoring at every filter",
+      "Use queues between filters",
+      "Implement side-channel logging"
+    ],
+    "similar": ["Microservice", "Publish–Subscribe"],
+    "examples": [
+      "UNIX pipelines",
+      "Apache Beam",
+      "Compiler design"
+    ]
+  },
+  {
+    "key": "p2p",
+    "name": "Peer–to–Peer (P2P)",
+    "summary": "Decentralized architecture where every node acts as both a client and a server.",
+    "complexity": "High",
+    "deployment": "Fully distributed",
+    "primaryDriver": "Decentralization and resilience without central authority",
+    "whenToUse": [
+      "You need full decentralization",
+      "System must survive node failures",
+      "High availability and geographic distribution"
+    ],
+    "whenNotToUse": [
+      "You need controlled central governance",
+      "Security requirements prohibit open participation",
+      "You need simple operational overhead"
+    ],
+    "cons": [
+      "Hard to secure",
+      "High coordination cost",
+      "Unpredictable node reliability"
+    ],
+    "mitigations": [
+      "Distributed consensus",
+      "Reputation systems",
+      "Encryption and identity management"
+    ],
+    "similar": ["Publish–Subscribe"],
+    "examples": [
+      "BitTorrent",
+      "Blockchain nodes",
+      "Distributed file systems"
+    ]
+  },
+  {
+    "key": "pubsub",
+    "name": "Publish–Subscribe",
+    "summary": "Event-driven architecture where publishers emit messages without knowing subscribers, and subscribers consume events based on topics.",
+    "complexity": "Medium",
+    "deployment": "Distributed",
+    "primaryDriver": "Loose coupling between producers and consumers",
+    "whenToUse": [
+      "Event-driven processing",
+      "Asynchronous communication",
+      "Multiple consumers with varying interests",
+      "Scalable message distribution"
+    ],
+    "whenNotToUse": [
+      "Strict request/response flows",
+      "Transactions requiring strong consistency",
+      "Real-time synchronous processing"
+    ],
+    "cons": [
+      "Event ordering issues",
+      "Hard to debug",
+      "Eventual consistency challenges"
+    ],
+    "mitigations": [
+      "Event versioning",
+      "Dead-letter queues",
+      "Structured topic governance"
+    ],
+    "similar": ["Microservice", "Pipe–and–Filter"],
+    "examples": [
+      "Kafka",
+      "Google Pub/Sub",
+      "RabbitMQ topics"
+    ]
+  },
+  {
+    "key": "blackboard",
+    "name": "Blackboard",
+    "summary": "Central shared knowledge system where independent knowledge sources contribute partial solutions iteratively until a result is formed.",
+    "complexity": "High",
+    "deployment": "Centralized + modular",
+    "primaryDriver": "Solving complex, multi-domain reasoning problems",
+    "whenToUse": [
+      "AI or reasoning systems",
+      "Incremental interpretation of partial data",
+      "Multiple expert modules contribute to a solution"
+    ],
+    "whenNotToUse": [
+      "Simple workflow or transactional systems",
+      "Systems not requiring iterative refinement"
+    ],
+    "cons": [
+      "Complex coordination",
+      "High development cost",
+      "Difficult to debug knowledge flow"
+    ],
+    "mitigations": [
+      "Clear modular boundaries",
+      "Knowledge bus monitoring",
+      "Explainability tools"
+    ],
+    "similar": ["Microservice"],
+    "examples": [
+      "Speech recognition",
+      "Image understanding systems",
+      "AI planning engines"
+    ]
+  },
+  {
+    "key": "microservice",
+    "name": "Microservice",
+    "summary": "A distributed architecture composed of small, independent services that communicate over APIs.",
+    "complexity": "High",
+    "deployment": "Distributed",
+    "primaryDriver": "Independent scaling and team autonomy",
+    "whenToUse": [
+      "Large development teams",
+      "Independent deployability is required",
+      "High scalability needs",
+      "Different modules require different tech stacks"
+    ],
+    "whenNotToUse": [
+      "Small teams",
+      "Simple applications",
+      "Strongly coupled transactional workflows"
+    ],
+    "cons": [
+      "DevOps overhead",
+      "Distributed transactions",
+      "Observability complexity"
+    ],
+    "mitigations": [
+      "Sagas & CQRS",
+      "Centralized logging and tracing",
+      "Service mesh"
+    ],
+    "similar": [
+      "Client–Server",
+      "Publish–Subscribe",
+      "Pipe–and–Filter"
+    ],
+    "examples": [
+      "Netflix",
+      "Uber",
+      "Amazon"
+    ]
+  },
+  {
+    "key": "database",
+    "name": "Database",
+    "summary": "Central repository for structured data supporting CRUD, indexing, queries, and transactions.",
+    "complexity": "Low",
+    "deployment": "Centralized or clustered",
+    "primaryDriver": "Reliable storage and ACID consistency",
+    "whenToUse": [
+      "You need persistent storage",
+      "Transactions matter",
+      "Data modeling and querying required"
+    ],
+    "whenNotToUse": [
+      "You need peer-to-peer data propagation",
+      "You need real-time or streaming transformations"
+    ],
+    "cons": [
+      "Single point of failure",
+      "Scaling requires sharding",
+      "Rigid schema evolution"
+    ],
+    "mitigations": [
+      "Clustered deployments",
+      "Sharding & replication",
+      "Schema versioning"
+    ],
+    "similar": ["Client–Server", "Layered Architecture"],
+    "examples": [
+      "PostgreSQL",
+      "MongoDB",
+      "MySQL"
+    ]
+  },
+
+  {
+    "key": "layered",
+    "name": "Layered Architecture",
+    "summary": "A structured architecture where components are organized into horizontal layers such as Presentation, Business Logic, and Data Access. Each layer has clear responsibilities and interacts only with the layer directly below it.",
+    "complexity": "Medium",
+    "deployment": "Monolithic or modular",
+    "primaryDriver": "Clear separation of responsibilities and maintainability",
+    "whenToUse": [
+      "Applications with clear domain boundaries",
+      "Enterprise systems with business logic",
+      "Systems that need maintainability and team-based ownership",
+      "When you want strict separation between UI, logic, and storage"
+    ],
+    "whenNotToUse": [
+      "High performance real-time systems",
+      "Systems that require flexible cross-layer communication",
+      "Highly distributed architectures where boundaries are not linear"
+    ],
+    "cons": [
+      "Can become rigid over time",
+      "Higher latency due to multiple layer traversal",
+      "Changes ripple through layers"
+    ],
+    "mitigations": [
+      "Introduce service layer contracts",
+      "Use dependency inversion",
+      "Enforce layer boundaries through architecture linting"
+    ],
+    "similar": [
+      "Model–View–Controller (MVC)",
+      "Client–Server",
+      "Presentation–Abstraction–Controller (PAC)"
+    ],
+    "examples": [
+      "Traditional Enterprise Apps",
+      "Spring Boot layered apps",
+      "Banking and insurance systems"
+    ]
+  }
+]

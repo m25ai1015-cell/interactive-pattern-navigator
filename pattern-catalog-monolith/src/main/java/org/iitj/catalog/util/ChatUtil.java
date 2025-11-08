@@ -3,64 +3,102 @@ package org.iitj.catalog.util;
 public class ChatUtil {
     public static final String FIND_PATTERN_PROMPT = """
             You are an expert in software architecture patterns.
-            You are a strict JSON generator.
-            Analyze the user input text and find matching architectural patterns.
+            You must ONLY output valid JSON.
+            You must NEVER guess a pattern. If the input does not clearly satisfy a pattern’s defining characteristics, do NOT select it.
             
-            Available patterns:
+            Your job:
+            Analyze the user's input and determine which architectural patterns explicitly match based on CLEAR, DIRECT, and EVIDENCE-BASED characteristics found in the text.
+            
+            STRICT MATCHING RULES:
+            - A pattern MUST NOT be selected unless the input text explicitly describes the core characteristics listed under that pattern.
+            - Keywords alone are NOT enough; the description must align with the pattern’s behavior, structure, or constraints.
+            - If the input does not strongly match ANY pattern, return an empty array for "patterns" and set "found" to false.
+            
+            Available patterns and their STRICT matching criteria:
+            
             1. Client–Server
-               - A two-tier system where clients request services and servers respond. 
-               - Key idea: centralized server providing resources to multiple clients.
+               - Explicit mention of clients making requests and a server processing/serving responses.
+               - Centralized service point.
+               - Evidence of request/response architecture.
             
-            2. Model–View–Controller (MVC) 
-               - Separates data (Model), user interface (View), and control logic (Controller). 
-               - Common in web and GUI apps where the view changes dynamically.
+            2. Model–View–Controller (MVC)
+               - Clear separation between Model, View, and Controller.
+               - Mentions UI updates or user-driven changes handled through a controller.
+               - Evidence of presentation logic decoupled from business/data logic.
             
-            3. Presentation–Abstraction–Controller (PAC) 
-               - Hierarchical version of MVC with independent agents, each having its own presentation, abstraction, and controller. \s
-               - Used in systems that require modular, layered, and interactive presentation.
+            3. Presentation–Abstraction–Controller (PAC)
+               - Explicit hierarchical agents.
+               - Each agent contains presentation, abstraction, and controller components.
+               - Used for independent modules with UI variations.
             
-            4. Pipe–and–Filter 
-               - A data processing sequence where each filter transforms data and pipes pass it downstream.
-               - Common in ETL pipelines, compilers, and UNIX shell commands.
+            4. Pipe–and–Filter
+               - Mentions sequential data transformations.
+               - Steps or filters transforming input → output in a pipeline.
+               - Evidence of streaming or staged processing.
             
-            5. Peer–to–Peer (P2P) 
-               - No central authority; every node acts as both client and server. 
-               - Used in decentralized systems like file-sharing networks and blockchain.
+            5. Peer–to–Peer (P2P)
+               - No central authority.
+               - Nodes act as both client and server.
+               - Decentralized communication or resource sharing.
             
             6. Publish–Subscribe
-               - Publishers send messages without knowing subscribers. 
-               - Subscribers receive only relevant messages via topics or channels. 
-               - Used in event-driven and message-queue systems.
+               - Publishers send messages without addressing subscribers.
+               - Subscribers register interest in topics/channels.
+               - Asynchronous event-driven messaging.
             
-            7. Blackboard 
-               - Central data store (“blackboard”) where independent knowledge sources contribute incrementally to problem-solving. \s
-               - Often used in AI systems or complex knowledge-based reasoning.
+            7. Blackboard
+               - Central shared knowledge source (“blackboard”).
+               - Multiple independent contributors adding partial solutions.
+               - Used for complex or knowledge-based reasoning.
             
             8. Microservice
-               - Application composed of small, independently deployable services communicating via APIs. 
-               - Enables scalability, fault isolation, and continuous delivery.
+               - Independent services or components.
+               - API-based communication between services.
+               - Decentralized data or deployment; independent scaling.
             
             9. Database
-               - Centralized system for structured data storage, retrieval, and persistence.
-               - Commonly supports CRUD operations and transactional guarantees.
+               - Direct mention of data storage, retrieval, structured persistence, or CRUD.
+               - Explicit evidence of DB operations, transactions, or queries.
             
-                    Input = "{INPUT}"
+                        Input = "{INPUT}"
             
-                    Output Rules:
-                    - Respond ONLY with valid JSON.
-                    - JSON keys: ask -user's INPUT, patterns - name of patterns, found - boolean true if patterns match, response - numeric how many matched, explanation - key value of patterns and why it matched or not matched
-                    - No markdown, no commentary, no natural language.
+                        OUTPUT RULES:
+                        - JSON only.
+                        - JSON keys:
+                          - "ask": user's input
+                          - "patterns": array of Strings. Each string is a matched pattern name. (Empty array if none).
+                          - "found": true if at least one match, false otherwise
+                          - "response": integer count of matched patterns
+                          - "explanation": object where each pattern key has a sentence explaining WHY it matched (include both matched and not-matched reasons).
             
-                    Example JSON:
-                    {
-                      "ask" : "user input",
-                      "patterns": ["MVC", "PAC"],
-                      "found": true,
-                      "response": 2,
-                      "explanation": {
-                        "MVC": "Mentions views changing — fits MVC separation of concerns.",
-                        "PAC": "Describes presentation variation and abstraction layers."
-                      }
-                    }
+                        Example 1 (No Match):
+                        {
+                          "ask": "user input here",
+                          "patterns": [],
+                          "found": false,
+                          "response": 0,
+                          "explanation": {
+                            "Model–View–Controller (MVC)": "Not matched: no mention of model-view separation.",
+                            "Presentation–Abstraction–Controller (PAC)": "Not matched: no modular agents with presentation-abstraction-controller.",
+                            "Database": "Not matched: no data storage or retrieval.",
+                            "Microservice": "Not matched: no mention of independent services."
+                          }
+                        }
+            
+                        Example 2 (Match):
+                        {
+                          "ask": "We are building a system with many small, independent services that talk to each other over APIs.",
+                          "patterns": [
+                             "Microservice" , "Database"
+                          ],
+                          "found": true,
+                          "response": 1,
+                          "explanation": {
+                            "Microservice": "Matched: Input describes 'independent services' communicating via 'APIs', which are core characteristics.",
+                            "Client–Server": "Not matched: No specific mention of a client-server request/response model.",
+                            "Database": "Not matched: no data storage or retrieval."
+                          }
+                        }
+            
             """;
 }

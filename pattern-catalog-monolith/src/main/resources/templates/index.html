@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Architecture Pattern Search</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom style to make the backdrop filter work better */
+    dialog::backdrop {
+      background-color: rgba(0, 0, 0, 0.7); /* Darker backdrop */
+      backdrop-filter: blur(8px); /* Frosted glass effect */
+    }
+
+    /* Keyframes for a subtle border pulse animation */
+    @keyframes border-pulse {
+      0% { border-color: rgba(99, 102, 241, 0.5); } /* indigo-500 */
+      50% { border-color: rgba(168, 85, 247, 0.8); } /* purple-500 */
+      100% { border-color: rgba(99, 102, 241, 0.5); }
+    }
+
+    .animate-border-pulse {
+      animation: border-pulse 4s infinite ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen text-gray-900">
+
+<a href="/patterns"
+   class="fixed top-8 right-8 flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-5 py-3 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300">
+  <span class="text-xl">📚</span>
+  <span>Pattern Catalog</span>
+</a>
+
+<div class="flex flex-col items-center pt-20">
+  <h1 class="text-4xl font-semibold mb-8 text-gray-700">
+    Architecture Pattern Search
+  </h1>
+
+  <input
+          id="searchBox"
+          type="text"
+          placeholder="Search architecture patterns..."
+          class="w-2/3 md:w-1/2 px-6 py-3 text-lg rounded-full border border-gray-300 shadow bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+
+  <p id="resultCount" class="text-sm mt-2 text-gray-600"></p>
+</div>
+
+<div class="flex justify-center mt-10">
+  <div id="results" class="w-2/3 md:w-1/2 space-y-6"></div>
+</div>
+
+<button
+        onclick="openFoundersDialog()"
+        class="fixed bottom-8 right-8 flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-5 py-3 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300"
+>
+  <span class="text-xl">🚀</span>
+  Founders
+</button>
+
+<dialog id="detailsModal" class="w-1/2 p-6 rounded-lg shadow-lg bg-white">
+  <div id="detailsTitle" class="text-2xl font-semibold mb-4"></div>
+  <div id="detailsContent" class="text-gray-800 text-sm space-y-3"></div>
+  <div class="text-right mt-4">
+    <button onclick="closeDetails()" class="px-4 py-2 rounded bg-gray-600 text-white">Close</button>
+  </div>
+</dialog>
+
+<dialog id="foundersDialog" class="w-11/12 md:w-1/2 p-8 rounded-2xl shadow-2xl bg-gradient-to-br from-indigo-800 to-purple-900 text-white border-4 border-indigo-500 animate-border-pulse">
+  <h2 class="text-4xl font-extrabold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-lime-300 drop-shadow-lg">
+    Our Visionaries
+  </h2>
+
+  <div class="space-y-6 text-lg">
+    <p class="leading-relaxed text-blue-200 text-shadow-sm">
+      We are profoundly inspired by the visionary mentorship of <a href='https://home.iitj.ac.in/~sumitk/' class="text-purple-300 hover:text-purple-100 hover:underline font-semibold transition-colors duration-200"> Professor Dr. Sumit Kalra </a>, whose boundless wisdom and unwavering guidance were the catalyst for our profound exploration into the true essence of architecture.
+    </p>
+
+    <div class="p-4 bg-white/10 rounded-lg shadow-inner">
+      <h3 class="font-bold text-xl mb-2 text-yellow-300 drop-shadow-sm">Esteemed Professor</h3>
+      <p class="text-blue-100">Dr. Sumit Kalra</p>
+    </div>
+
+    <div class="p-4 bg-white/10 rounded-lg shadow-inner">
+      <h3 class="font-bold text-xl mb-2 text-yellow-300 drop-shadow-sm">Dedicated Team</h3>
+      <ul class="list-disc list-inside ml-4 space-y-2 text-blue-100">
+        <li>Sujoy Acharya (<a href="mailto:m25ai1037@iitj.ac.in" class="text-purple-300 hover:text-purple-100 hover:underline transition-colors duration-200">m25ai1037@iitj.ac.in</a>)</li>
+        <li>Soumyadeep Saha (<a href="mailto:m25ai1037@iitj.ac.in" class="text-purple-300 hover:text-purple-100 hover:underline transition-colors duration-200">m25ai1037@iitj.ac.in</a>)</li>
+        <li>Ritam Nandi (<a href="mailto:m25ai1037@iitj.ac.in" class="text-purple-300 hover:text-purple-100 hover:underline transition-colors duration-200">m25ai1037@iitj.ac.in</a>)</li>
+        <li>Rima Hazra (<a href="mailto:m25ai1037@iitj.ac.in" class="text-purple-300 hover:text-purple-100 hover:underline transition-colors duration-200">m25ai1037@iitj.ac.in</a>)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="text-right mt-8">
+    <button onclick="closeFoundersDialog()" class="px-6 py-2 rounded-full bg-gradient-to-r from-teal-400 to-emerald-500 text-white font-bold shadow-lg hover:shadow-xl hover:from-teal-500 hover:to-emerald-600 transition-all duration-300 transform hover:scale-105">
+      Close
+    </button>
+  </div>
+</dialog>
+
+
+<footer class="text-center text-sm text-gray-500 mt-12 mb-4">
+  Copyright &copy; 2025 IITJ
+</footer>
+
+
+<script>
+
+  // DOM refs
+  const searchBox = document.getElementById("searchBox");
+  const resultsDiv = document.getElementById("results");
+  const resultCount = document.getElementById("resultCount");
+
+  // --- API CALL ---
+  async function searchPatterns(query) {
+      if (!query.trim()) {
+          resultsDiv.innerHTML = "";
+          resultCount.textContent = "";
+          return;
+      }
+
+      const res = await fetch("/api/v1/ai/patterns", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ prompt: query })
+      });
+
+      const list = await res.json();
+      renderResults(list, query);
+  }
+
+  // --- RENDER RESULTS ---
+  function renderResults(items, query) {
+
+      if (!items || items.length === 0) {
+          resultCount.textContent = "No results found";
+
+          resultsDiv.innerHTML = `
+              <div class="bg-white p-6 rounded shadow text-gray-800">
+                  <h3 class="text-xl font-semibold mb-3">
+                      Looks like you're working on something we don't know yet.
+                  </h3>
+                  <p class="text-gray-600 mb-4">
+                      Educate me! Tell me your actual problem and I’ll figure out the right architectural patterns.
+                  </p>
+
+                  <button
+                      //onclick="openProblemDialog()"
+                      class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
+                  >
+                      Describe Your Problem
+                  </button>
+              </div>
+          `;
+          return;
+      }
+
+      resultCount.textContent = `${items.length} results`;
+      window.__CACHE__ = items;
+
+      resultsDiv.innerHTML = items.map(p => `
+          <div class="bg-white p-5 rounded shadow hover:shadow-md transition cursor-pointer"
+               onclick="openDetails('${p.name}')">
+              <h3 class="text-xl font-medium text-blue-700 underline">${p.name}</h3>
+              <p class="text-sm text-gray-700 mt-1">${p.summary}</p>
+              <p class="text-sm text-gray-700 mt-1"><b>AI Reasoning :</b>${p.reasonMatched}</p>
+              <p class="text-xs text-gray-500 mt-2">
+                  Complexity: ${p.complexity} · Deployment: ${p.deployment}
+              </NEW_LINE>
+          </div>
+      `).join("");
+  }
+
+
+  function openDetails(key) {
+      window.location.href = "/patterns/" + key;
+  }
+
+  function closeDetails() {
+      document.getElementById("detailsModal").close();
+  }
+
+  function openFoundersDialog() {
+      document.getElementById("foundersDialog").showModal();
+  }
+
+  function closeFoundersDialog() {
+      document.getElementById("foundersDialog").close();
+  }
+
+  searchBox.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+          e.preventDefault();
+          searchPatterns(searchBox.value);
+      }
+  });
+
+</script>
+
+</body>
+</html>
