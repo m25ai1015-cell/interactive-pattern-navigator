@@ -1,0 +1,28 @@
+# 1. Run the gateway on a fixed port (the main entry point)
+server:
+  port: 9090
+
+
+# 3. Tell the gateway where the Eureka registry is
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+# 4. Define the routing rules
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # -----------------------------------------------------------------
+        # Route 2: The Frontend UI (ui-service)
+        # This is the "catch-all" route. It MUST be LAST.
+        # -----------------------------------------------------------------
+        - id: ui-service-route
+          # It will load balance to the service named "ui-service"
+          uri: lb://pattern-service
+          predicates:
+            # If the request path is ANYTHING else...
+            - Path=/**
