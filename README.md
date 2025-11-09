@@ -92,7 +92,7 @@ Open `http://localhost:9090/`
 
 ## Quality Attributes Addressed
 
-The app itself is designed to address the following patterns:
+The app itself is designed to address the following attributes:
 
 - Availability  
 - Scalability  
